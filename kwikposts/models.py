@@ -11,6 +11,7 @@ class KwikPost(models.Model):
     slug = models.SlugField(max_length=200, blank=True)
     featured_image = models.ImageField(upload_to='user_posts/images/%Y/%m/%d/')
     post_body = models.TextField(max_length=140, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     post_likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='kwiktalk_posts_liked', blank=True)
 
@@ -19,5 +20,5 @@ class KwikPost(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.post_body)
+            self.slug = slugify(self.post_body[0:20])
         super().save(*args, **kwargs)

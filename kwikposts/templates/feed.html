@@ -1,0 +1,286 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>KwikTalk - Feed</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/column.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;500&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body class="body-style">
+  {% block content %}
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light navbar-color shadow-sm" id="navbar-padding">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img class="img" src="{% static 'img/kwiktalk-logo.svg' %}" width="50px" height="50px" alt="logo"> KwikTalk</a>
+
+{#        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">#}
+{#          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">#}
+{#            <li class="nav-item active">#}
+{#              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+{#            </li>#}
+{#            <li class="nav-item">#}
+{#              <a class="nav-link" href="#">Digital Column</a>#}
+{#            </li>#}
+{#          </ul>#}
+{#        </div>#}
+      </nav>
+      <script>
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar-padding").style.top = "0";
+            } else {
+                document.getElementById("navbar-padding").style.top = "-55px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
+      </script>
+
+      <div class="container-fluid second-nav sticky-top" style="background-color: #2E306B !important;">
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <span class="ml-auto">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #E62E78 !important; border-color: #E62E78 !important;">Write a post</button>
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                &nbsp;
+                <!-- <div class="dropdown"> -->
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
+                    <img src="../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
+                    <span style="color: white">{{ request.user.first_name }}</span> </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Account settings</a>
+                            <div class="dropdown-divider"></div>
+                        <a href="{% url "logout" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Log out</a>
+                    </div>
+                <!-- </div> -->
+            </span>
+      </div>
+      <div class="container-fluid main-body">
+          <div class="row">
+              <div class="col-md-3 main-body-inner">
+                <div class="left-sidebar">
+                    <p>
+                        <h6 class="post-tag-head">Account Summary</h6>
+                        <div class="tag-sidebar-item">
+                            <p class="post-tag">3 Post(s) Published</p>
+                            <p class="post-tag">25 Followers</p>
+                            <p class="post-tag">Following 23</p>
+
+                        </div>
+                    </p>
+                </div>
+              </div>
+              <div class="col-md-6 main-body-inner1">
+                <p>
+                    <h6 class="post-head">Posts Feed</h6>
+                    <div class="post-container">
+                        <div class="feed-post-image-container">
+
+                        </div>
+                        <div class="container-fluid feed-post-detail">
+                            <div class="row feed-post-author-detail">
+                                <div class="col-md-4 feed-post-author-image-name-post-date">
+                                    <div class="feed-post-author-image">
+
+                                    </div>
+                                    <span>
+                                        <!-- <div class="feed-post-author-name-post-date"> -->
+                                            <p class="feed-post-author-name">David Fatunbi</p>
+                                            <p class="feed-post-date">Jul 17</p>
+                                        <!-- </div> -->
+                                    </span>
+                                </div>
+
+                                <div class="col-md-8 feed-post-title-area">
+                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
+                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
+                                </div>
+                            </div>
+                            <div class="post-reactions">
+                                <div class="post-reaction-inner ml-auto">
+                                    <p class="time-to-read">2 min read</p>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-container">
+                        <div class="feed-post-image-container">
+
+                        </div>
+                        <div class="container-fluid feed-post-detail">
+                            <div class="row feed-post-author-detail">
+                                <div class="col-md-4 feed-post-author-image-name-post-date">
+                                    <div class="feed-post-author-image">
+
+                                    </div>
+                                    <span>
+                                        <!-- <div class="feed-post-author-name-post-date"> -->
+                                            <p class="feed-post-author-name">David Fatunbi</p>
+                                            <p class="feed-post-date">Jul 17</p>
+                                        <!-- </div> -->
+                                    </span>
+                                </div>
+
+                                <div class="col-md-8 feed-post-title-area">
+                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
+                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
+                                </div>
+                            </div>
+                            <div class="post-reactions">
+                                <div class="post-reaction-inner ml-auto">
+                                    <p class="time-to-read">2 min read</p>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-container">
+                        <div class="feed-post-image-container">
+
+                        </div>
+                        <div class="container-fluid feed-post-detail">
+                            <div class="row feed-post-author-detail">
+                                <div class="col-md-4 feed-post-author-image-name-post-date">
+                                    <div class="feed-post-author-image">
+
+                                    </div>
+                                    <span>
+                                        <!-- <div class="feed-post-author-name-post-date"> -->
+                                            <p class="feed-post-author-name">David Fatunbi</p>
+                                            <p class="feed-post-date">Jul 17</p>
+                                        <!-- </div> -->
+                                    </span>
+                                </div>
+
+                                <div class="col-md-8 feed-post-title-area">
+                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
+                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
+                                </div>
+                            </div>
+                            <div class="post-reactions">
+                                <div class="post-reaction-inner ml-auto">
+                                    <p class="time-to-read">2 min read</p>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p>
+              </div>
+              <div class="col-md-3 main-body-inner2">
+                <div class="trending-sidebar">
+                    <p>
+                        <h6 class="trending-sidebar-head"> <p></p> Friends</h6>
+                        <div class="trending-sidebar-item">
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                        </div>
+                    </p>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post">
+                  {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">KwikTalk Post:</label>
+                    <textarea class="form-control" name="post_body" id="message-text"></textarea>
+                  </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                      <input type="file" name="featured_image" multiple class="custom-file-input form-control" id="customFile">
+                      <label class="custom-file-label" for="customFile">Choose Post Image</label>
+                    </div>
+                    <img src="https://placehold.it/80x80" id="preview" style="margin-top: 1em;" width="80px" height="80px" class="img-thumbnail">
+                  </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script>
+                  $(document).on("click", ".browse", function() {
+          var file = $(this).parents().find(".file");
+          file.trigger("click");
+        });
+        $('input[type="file"]').change(function(e) {
+          var fileName = e.target.files[0].name;
+          $("#file").val(fileName);
+
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("preview").src = e.target.result;
+          };
+          // read the image file as a data URL.
+          reader.readAsDataURL(this.files[0]);
+        });
+
+
+        $(document).ready(function() {
+          $('input[type="file"]').on("change", function() {
+            let filenames = [];
+            let files = document.getElementById("customFile").files;
+            if (files.length > 1) {
+              filenames.push("Total Files (" + files.length + ")");
+            } else {
+              for (let i in files) {
+                if (files.hasOwnProperty(i)) {
+                  filenames.push(files[i].name);
+                }
+              }
+            }
+            $(this)
+              .next(".custom-file-label")
+              .html(filenames.join(","));
+          });
+        });
+
+    </script>
+{% endblock %}
+  </body>
+</html>
