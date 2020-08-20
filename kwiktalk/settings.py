@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # my new apps
     'account.apps.AccountConfig',
+    'kwikposts.apps.KwikpostsConfig',
 
 ]
 
