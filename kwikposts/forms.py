@@ -10,13 +10,13 @@ class KwikTalkPostForm(forms.ModelForm):
         model = KwikPost
         fields = ('featured_image', 'post_body')
 
-    def clean_featured_image(self):
-        featured_image = self.cleaned_data['featured_image']
-        valid_image_extensions = ['jpg', 'jpeg', 'png', 'gif']
-        extension = featured_image.rsplit('.', 1)[1].lower()
-        if extension not in valid_image_extensions:
-            raise forms.ValidationError('The chosen image does not match a valid image extension.')
-        return featured_image
+    # def clean_featured_image(self):
+    #     featured_image = self.cleaned_data['featured_image']
+    #     valid_image_extensions = ['jpg', 'jpeg', 'png', 'gif']
+    #     extension = featured_image.rsplit('.', 1)[1].lower()
+    #     if extension not in valid_image_extensions:
+    #         raise forms.ValidationError('The chosen image does not match a valid image extension.')
+    #     return featured_image
 
     # def save(self, force_insert=False, force_update=False, commit=True):
     #     featured_image = super().save(commit=False)

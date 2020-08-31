@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+
+from kwikposts.views import list_create_post
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
@@ -20,7 +22,8 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     # return HttpResponse('Authenticated Successfully')
-                    return dashboard(request)
+                    return list_create_post(request)
+                    # return dashboard(request)
                 else:
                     return HttpResponse('Disabled Account')
             else:

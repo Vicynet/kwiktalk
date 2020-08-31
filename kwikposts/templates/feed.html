@@ -87,99 +87,43 @@
               <div class="col-md-6 main-body-inner1">
                 <p>
                     <h6 class="post-head">Posts Feed</h6>
-                    <div class="post-container">
+{#                    {% for post in posts %}#}
+{#                        <p>{{ post.post_body }}</p>#}
+{#                    {% endfor %}#}
+                  {% for post in added_post %}
+                   <div class="post-container">
                         <div class="feed-post-image-container">
-
+                            <img src="../../media/{{ post.featured_image }}" id="previe"  width="545px" height="204px" >
                         </div>
                         <div class="container-fluid feed-post-detail">
                             <div class="row feed-post-author-detail">
                                 <div class="col-md-4 feed-post-author-image-name-post-date">
                                     <div class="feed-post-author-image">
-
+                                        <img src="../../media/{{ post.user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
                                     </div>
                                     <span>
                                         <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">David Fatunbi</p>
-                                            <p class="feed-post-date">Jul 17</p>
+                                            <p class="feed-post-author-name">{{ post.user.first_name }}</p>
+                                            <p class="feed-post-date">{{ post.created_at | timesince}} ago</p>
                                         <!-- </div> -->
                                     </span>
                                 </div>
 
                                 <div class="col-md-8 feed-post-title-area">
-                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
-                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
-                                </div>
-                            </div>
-                            <div class="post-reactions">
-                                <div class="post-reaction-inner ml-auto">
-                                    <p class="time-to-read">2 min read</p>
-                                    <button type="button" class="btn btn-primary">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-container">
-                        <div class="feed-post-image-container">
-
-                        </div>
-                        <div class="container-fluid feed-post-detail">
-                            <div class="row feed-post-author-detail">
-                                <div class="col-md-4 feed-post-author-image-name-post-date">
-                                    <div class="feed-post-author-image">
-
+                                  <div class="post-reactions">
+                                    <div class="post-reaction-inner ml-auto">
+                                        <p class="time-to-read">[1] likes</p>
+                                        <button type="button" class="btn btn-primary">Like</button>
                                     </div>
-                                    <span>
-                                        <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">David Fatunbi</p>
-                                            <p class="feed-post-date">Jul 17</p>
-                                        <!-- </div> -->
-                                    </span>
-                                </div>
-
-                                <div class="col-md-8 feed-post-title-area">
-                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
-                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
+                                  </div>
                                 </div>
                             </div>
-                            <div class="post-reactions">
-                                <div class="post-reaction-inner ml-auto">
-                                    <p class="time-to-read">2 min read</p>
-                                    <button type="button" class="btn btn-primary">Save</button>
+                                <div class="post-content">
+                                    <p>{{ post.post_body }}</p>
                                 </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="post-container">
-                        <div class="feed-post-image-container">
-
-                        </div>
-                        <div class="container-fluid feed-post-detail">
-                            <div class="row feed-post-author-detail">
-                                <div class="col-md-4 feed-post-author-image-name-post-date">
-                                    <div class="feed-post-author-image">
-
-                                    </div>
-                                    <span>
-                                        <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">David Fatunbi</p>
-                                            <p class="feed-post-date">Jul 17</p>
-                                        <!-- </div> -->
-                                    </span>
-                                </div>
-
-                                <div class="col-md-8 feed-post-title-area">
-                                    <p class="feed-post-title">CRUD WITH JAVA AND SPRINGBOOT 2.0....</p>
-                                    <p class="feed-post-tag"> <span>#Java</span> <span>#Spring</span></p>
-                                </div>
-                            </div>
-                            <div class="post-reactions">
-                                <div class="post-reaction-inner ml-auto">
-                                    <p class="time-to-read">2 min read</p>
-                                    <button type="button" class="btn btn-primary">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  {% endfor %}
                 </p>
               </div>
               <div class="col-md-3 main-body-inner2">
@@ -213,8 +157,21 @@
               </button>
             </div>
             <div class="modal-body">
-              <form method="post">
+              <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
+{#                  {{ post_form }}#}
+{#                            <button type="submit" name="submit_post_form" class="btn btn-primary">Post</button>#}
+
+                  {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message|safe }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
 
                 <div class="form-group">
                     <label for="message-text" class="col-form-label">KwikTalk Post:</label>
@@ -222,15 +179,15 @@
                   </div>
                 <div class="form-group">
                     <div class="custom-file">
-                      <input type="file" name="featured_image" multiple class="custom-file-input form-control" id="customFile">
+                      <input type="file" name="featured_image" class="custom-file-input form-control" id="customFile">
                       <label class="custom-file-label" for="customFile">Choose Post Image</label>
                     </div>
                     <img src="https://placehold.it/80x80" id="preview" style="margin-top: 1em;" width="80px" height="80px" class="img-thumbnail">
                   </div>
-              </form>
-            </div>
-            <div class="modal-footer">
+                  <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+              </form>
             </div>
           </div>
         </div>
@@ -238,12 +195,31 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
+
+      <script>
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+beforeSend: function(xhr, settings) {
+if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+xhr.setRequestHeader("X-CSRFToken", csrftoken);
+}
+}
+});
+$(document).ready(function(){
+
+    }
+    </script>
     <script>
-                  $(document).on("click", ".browse", function() {
+        $(document).on("click", ".browse", function() {
           var file = $(this).parents().find(".file");
           file.trigger("click");
         });
