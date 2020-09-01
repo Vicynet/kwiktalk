@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>KwikTalk - Feed</title>
+    <title>{{ user.get_full_name }} KwikTalk - Profile</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/column.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;500&display=swap" rel="stylesheet">
@@ -21,16 +21,6 @@
         </button>
         <a class="navbar-brand" href="#"><img class="img" src="{% static 'img/kwiktalk-logo.svg' %}" width="50px" height="50px" alt="logo"> KwikTalk</a>
 
-{#        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">#}
-{#          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">#}
-{#            <li class="nav-item active">#}
-{#              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
-{#            </li>#}
-{#            <li class="nav-item">#}
-{#              <a class="nav-link" href="#">Digital Column</a>#}
-{#            </li>#}
-{#          </ul>#}
-{#        </div>#}
       </nav>
       <script>
         var prevScrollpos = window.pageYOffset;
@@ -59,8 +49,8 @@
                 &nbsp;
                 <!-- <div class="dropdown"> -->
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
-                    <img src="../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
-                    <span style="color: white">{{ request.user.first_name }}</span> </button>
+                    <img src="../../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
+                    <span style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Account settings</a>
                             <div class="dropdown-divider"></div>
@@ -75,37 +65,56 @@
                 <div class="left-sidebar">
                     <p>
                         <h6 class="post-tag-head">Account Summary</h6>
-                        <div class="tag-sidebar-item">
-                            <p class="post-tag">3 Post(s) Published</p>
-                            <p class="post-tag">25 Followers</p>
-                            <p class="post-tag">Following 23</p>
+                        <div class="tag-sidebar-item" style="overflow-y: hidden;height: 0em;"></div>
+                    {% with total_followers=user.followers.count  %}
 
-                        </div>
+                            <p class="post-tag" style="margin-left: 1em;">3 Post(s) Published</p>
+                            <p style="margin-left: 1em" class="friend-button">
+                                <button type="button" class="btn btn-dark">
+                                    Friends <span class="badge badge-light">{{ user.profile.get_friends_number }}</span>
+                                </button>
+                                    {% for friend in user.profile.get_friends %}
+                                    <p style="margin-left: 1em;">{{ friend|capfirst }}</p>
+                             </p>
+                {% endfor %}
+{#                        <a href="#" style="margin-left: 0.7em;" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="btn btn-primary" role="button" aria-disabled="true">#}
+{#                            {% if request.user not in user.followers.all %}#}
+{#                                Follow#}
+{#                            {% else %}#}
+{#                                Unfollow#}
+{#                            {% endif %}#}
+{#                        </a>#}
+{#                            <button type="button" class="btn btn-primary">Like</button>#}
+                    {% endwith %}
+
+
                     </p>
+
                 </div>
               </div>
               <div class="col-md-6 main-body-inner1">
                 <p>
-                    <h6 class="post-head">Posts Feed</h6>
-{#                    {% for post in posts %}#}
-{#                        <p>{{ post.post_body }}</p>#}
-{#                    {% endfor %}#}
-                  {% for post in added_post %}
+                    <h6 class="post-head">Timeline</h6>
+
+                  {% for post in user_post %}
                    <div class="post-container">
+{#                   {% if user_post == 0 %}#}
+{#                       <p>No Posts Yet</p>#}
+{#                       {% endif %}#}
                         <div class="feed-post-image-container">
-                            <img src="../../media/{{ post.featured_image }}" id="previe"  width="545px" height="204px" >
+                            <img src="../../../media/{{ post.featured_image }}" id="previe"  width="545px" height="204px" >
                         </div>
                         <div class="container-fluid feed-post-detail">
                             <div class="row feed-post-author-detail">
                                 <div class="col-md-4 feed-post-author-image-name-post-date">
                                     <a href="{{ user.get_absolute_url }}">
                                     <div class="feed-post-author-image">
-                                        <img src="../../media/{{ post.user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
+                                        <img src="../../../media/{{ post.user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
                                     </div>
                                     </a>
                                     <span>
                                         <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">{{ post.user.first_name }}</p>
+                                            <p class="feed-post-author-name">{{ post.user.first_name|capfirst }}</p>
                                             <p class="feed-post-date">{{ post.created_at | timesince}} ago</p>
                                         <!-- </div> -->
                                     </span>
@@ -131,17 +140,40 @@
               <div class="col-md-3 main-body-inner2">
                 <div class="trending-sidebar">
                     <p>
-                        <h6 class="trending-sidebar-head"> <p></p> Friends</h6>
+                        <h6 class="trending-sidebar-head"> <p></p>Profile</h6>
                         <div class="trending-sidebar-item">
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                            <p class="post-trend-title">
+                            <div class="feed-post-author-image" style="display: flex">
+                                        <img src="/media/{{ user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
+                             <button type="button" class="btn btn-primary">
+                                    Follow
+                                </button>
+                                    </div>
+                            </p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Fullname</span>
+                                {{ user.get_full_name|capfirst }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Email</span>
+                                {{ user.email }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Username</span>
+                                {{ user.username }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Phone number</span>
+                                {{ user.profile.phone_number }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Bio</span>
+                                {{ user.profile.bio }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Birthday</span>
+                                {{ user.profile.date_of_birth }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Gender</span>
+                                {{ user.profile.gender }}</p>
+                            <p class="post-trend-title">
+                                <span class="badge badge-secondary">Joined</span>
+                                {{ user.profile.created_at }}</p>
                         </div>
                     </p>
                 </div>
@@ -161,8 +193,6 @@
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
-{#                  {{ post_form }}#}
-{#                            <button type="submit" name="submit_post_form" class="btn btn-primary">Post</button>#}
 
                   {% if messages %}
                     {% for message in messages %}
@@ -202,7 +232,33 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
+<script>
+    $('a.follow').click(function(e){
+        e.preventDefault();
+        $.post('{% url "user_follow" %}',
+    {
+        id: $(this).data('id'),
+        action: $(this).data('action')
+    },
+    function(data){
+        if (data['status'] == 'ok') {
+        var previous_action = $('a.follow').data('action');
+            // toggle data-action
+            $('a.follow').data('action', previous_action == 'follow' ? 'unfollow' : 'follow');
+// toggle link text
+            $('a.follow').text(
+previous_action == 'follow' ? 'Unfollow' : 'Follow');
+// update total followers
+var previous_followers = parseInt(
+$('span.count .total').text());
+$('span.count .total').text(previous_action == 'follow' ?
+previous_followers + 1 : previous_followers - 1);
+}
+}
+);
+});
 
+</script>
       <script>
 var csrftoken = Cookies.get('csrftoken');
 function csrfSafeMethod(method) {

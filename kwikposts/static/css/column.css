@@ -6,6 +6,13 @@
 .bi-pencil-square {
     color: #E62E78;
 }
+#cardStyle {
+    padding-top: 2em;
+}
+#cardDecker {
+    margin: 2em auto;
+}
+
 @media only screen and (max-width: 875px) {
     #navbar-padding {
         padding-left: .5em !important;

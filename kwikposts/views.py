@@ -69,3 +69,10 @@ def post_like(request):
         except:
             pass
     return JsonResponse({'status': 'error'})
+
+
+@login_required
+def user_post(request):
+    logged_in_user_posts = KwikPost.objects.filter(user=request.user)
+    return render(request, 'account/profile.html', {'post': logged_in_user_posts})
+

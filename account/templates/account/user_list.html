@@ -1,4 +1,5 @@
 {% load static %}
+{% load thumbnail %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -20,17 +21,6 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#"><img class="img" src="{% static 'img/kwiktalk-logo.svg' %}" width="50px" height="50px" alt="logo"> KwikTalk</a>
-
-{#        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">#}
-{#          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">#}
-{#            <li class="nav-item active">#}
-{#              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
-{#            </li>#}
-{#            <li class="nav-item">#}
-{#              <a class="nav-link" href="#">Digital Column</a>#}
-{#            </li>#}
-{#          </ul>#}
-{#        </div>#}
       </nav>
       <script>
         var prevScrollpos = window.pageYOffset;
@@ -70,83 +60,22 @@
             </span>
       </div>
       <div class="container-fluid main-body">
-          <div class="row">
-              <div class="col-md-3 main-body-inner">
-                <div class="left-sidebar">
-                    <p>
-                        <h6 class="post-tag-head">Account Summary</h6>
-                        <div class="tag-sidebar-item">
-                            <p class="post-tag">3 Post(s) Published</p>
-                            <p class="post-tag">25 Followers</p>
-                            <p class="post-tag">Following 23</p>
-
-                        </div>
-                    </p>
-                </div>
-              </div>
-              <div class="col-md-6 main-body-inner1">
-                <p>
-                    <h6 class="post-head">Posts Feed</h6>
-{#                    {% for post in posts %}#}
-{#                        <p>{{ post.post_body }}</p>#}
-{#                    {% endfor %}#}
-                  {% for post in added_post %}
-                   <div class="post-container">
-                        <div class="feed-post-image-container">
-                            <img src="../../media/{{ post.featured_image }}" id="previe"  width="545px" height="204px" >
-                        </div>
-                        <div class="container-fluid feed-post-detail">
-                            <div class="row feed-post-author-detail">
-                                <div class="col-md-4 feed-post-author-image-name-post-date">
-                                    <a href="{{ user.get_absolute_url }}">
-                                    <div class="feed-post-author-image">
-                                        <img src="../../media/{{ post.user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
-                                    </div>
-                                    </a>
-                                    <span>
-                                        <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">{{ post.user.first_name }}</p>
-                                            <p class="feed-post-date">{{ post.created_at | timesince}} ago</p>
-                                        <!-- </div> -->
-                                    </span>
-                                </div>
-
-                                <div class="col-md-8 feed-post-title-area">
-                                  <div class="post-reactions">
-                                    <div class="post-reaction-inner ml-auto">
-                                        <p class="time-to-read">[1] likes</p>
-                                        <button type="button" class="btn btn-primary">Like</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                                <div class="post-content">
-                                    <p>{{ post.post_body }}</p>
-                                </div>
+      <div class="row">
+        <div class="card-deck" id="cardDecker">
+            {% for user in users %}
+                    <div class="col-md-3" style="margin-bottom: 2em;">
+                    <div class="card">
+                         <img src="../../media/{{ user.profile.display_picture }}" class="card-img-top"  alt="logo">
+                        <div class="card-body">
+                            <a href="{{ user.get_absolute_url }}" style="text-decoration: none">
+                        <h6 class="card-title" style="color: #ba8b00;">{{ user.get_full_name }}</h6></a>
+                        <h6 class="card-title" style="color: #2E306B;">{{ user.email }}</h6>
                         </div>
                     </div>
-                  {% endfor %}
-                </p>
-              </div>
-              <div class="col-md-3 main-body-inner2">
-                <div class="trending-sidebar">
-                    <p>
-                        <h6 class="trending-sidebar-head"> <p></p> Friends</h6>
-                        <div class="trending-sidebar-item">
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                        </div>
-                    </p>
-                </div>
-              </div>
-          </div>
+                    </div>
+            {% endfor %}
+        </div>
+      </div>
       </div>
 
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

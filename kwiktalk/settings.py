@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     # External apps
     'social_django',
     'django_extensions',
+    'easy_thumbnails',
 
     # my new apps
     'account.apps.AccountConfig',
@@ -145,7 +147,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '357147839096-2bg40e5st9osp19h301cbqu3opunoabs.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'B5Ghv7vAls1vTc1vrQrupdGS'
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -165,4 +166,8 @@ LOGGING = {
             'propagate': False,
         },
     },
+}
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
 }
