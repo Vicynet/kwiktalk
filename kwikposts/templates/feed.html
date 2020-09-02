@@ -135,7 +135,7 @@
                         <div class="accordion" id="accordionExample">
                            <div class="card mb-2">
                                <div class="card-header" id="headingTwo">
-                                    <h2 class="mb-0">
+                                    <h2 class="mb-0" style="display: flex">
                                         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ post.id }}" aria-expanded="false" aria-controls="collapseTwo">
                                             Comments [{{ post.comment_set.all.all.count }}]
                                         </button>
@@ -167,6 +167,15 @@
                                             </div>
                                         </form>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="dropdown " style="margin-left: 25.5em;" >
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Modify post
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Update</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
                                 </div>
                             </div>
                         </div>
