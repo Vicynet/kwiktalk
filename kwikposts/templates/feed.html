@@ -132,6 +132,39 @@
                                     <p>{{ post.post_body }}</p>
                                 </div>
                         </div>
+                        <div class="accordion" id="accordionExample">
+                           <div class="card mb-2">
+                               <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Comments
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseTwo" class="collapse mb-2" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                        {{ message|safe }}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <input type="hidden" name="post_id" value={{ post.id }}>
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="user_comment" placeholder="Enter comments here" id="message-text"></textarea>
+                                                <button type="submit" name="submit_c_form" class="btn btn-primary" style="margin: 1em 0 0 25.5em">comment</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                   {% endfor %}
                 </p>
@@ -165,8 +198,6 @@
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
-{#                  {{ post_form }}#}
-{#                            <button type="submit" name="submit_post_form" class="btn btn-primary">Post</button>#}
 
                   {% if messages %}
                     {% for message in messages %}
@@ -191,7 +222,7 @@
                     <img src="https://placehold.it/80x80" id="preview" style="margin-top: 1em;" width="80px" height="80px" class="img-thumbnail">
                   </div>
                   <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Post</button>
+              <button type="submit" name="submit_p_form" class="btn btn-primary">Post</button>
             </div>
               </form>
             </div>

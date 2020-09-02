@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import KwikTalkPostForm
+from .forms import KwikTalkPostForm, CommentForm
 from django.shortcuts import get_object_or_404
 from .models import KwikPost, Comment, Like
 from account.models import Profile
@@ -20,9 +20,10 @@ def list_create_post(request):
     all_user_post = KwikPost.objects.filter(user=user).all().count()
     all_user_likes = Like.objects.filter(user=user).all().count()
 
-    if request.method == "POST":
+    if 'submit_p_form' in request.POST:
         # form is sent
         post_form = KwikTalkPostForm(request.POST, request.FILES)
+        # comment_form = CommentForm(request.POST)
 
         if post_form.is_valid():
             new_post = post_form.save(commit=False)
@@ -37,12 +38,30 @@ def list_create_post(request):
 
     else:
         post_form = KwikTalkPostForm(instance=request.user)
+        # comment_form = CommentForm(instance=request.user)
+
+    if 'submit_c_form' in request.POST:
+        comment_form = CommentForm(request.POST)
+
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.user = request.user
+            new_comment.post = KwikPost.objects.get(id=request.POST.get('post_id'))
+            comment_form.save()
+
+            comment_form = CommentForm()
+            messages.success(request, 'Successful!')
+        else:
+            messages.error(request, 'Failed!')
+    else:
+        comment_form = CommentForm(instance=request.user)
 
     # post_form = KwikTalkPostForm(instance=request.user)
 
     context = {
         'added_post': added_post,
         'post_form': post_form,
+        'user_comment': comment_form,
         'posts_by_user': all_user_post,
         'likes_by_user': all_user_likes,
     }
