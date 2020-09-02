@@ -60,7 +60,7 @@
                 <!-- <div class="dropdown"> -->
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
                     <img src="../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
-                    <span style="color: white">{{ request.user.first_name }}</span> </button>
+                    <span style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Account settings</a>
                             <div class="dropdown-divider"></div>
@@ -103,7 +103,7 @@
                                     </a>
                                     <span>
                                         <!-- <div class="feed-post-author-name-post-date"> -->
-                                            <p class="feed-post-author-name">{{ post.user.first_name }}</p>
+                                            <p class="feed-post-author-name">{{ post.user.first_name|capfirst }}</p>
                                             <p class="feed-post-date">{{ post.created_at | timesince}} ago</p>
                                         <!-- </div> -->
                                     </span>
@@ -136,12 +136,12 @@
                            <div class="card mb-2">
                                <div class="card-header" id="headingTwo">
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Comments
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ post.id }}" aria-expanded="false" aria-controls="collapseTwo">
+                                            Comments [{{ post.comment_set.all.all.count }}]
                                         </button>
                                     </h2>
                                 </div>
-                                <div id="collapseTwo" class="collapse mb-2" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div id="collapse{{ post.id }}" class="collapse mb-2" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <form method="post" enctype="multipart/form-data">
                                             {% csrf_token %}
@@ -159,6 +159,11 @@
                                             <div class="form-group">
                                                 <textarea class="form-control" name="user_comment" placeholder="Enter comments here" id="message-text"></textarea>
                                                 <button type="submit" name="submit_c_form" class="btn btn-primary" style="margin: 1em 0 0 25.5em">comment</button>
+                                                {% if post.comment_set.all %}
+                                                    {% for comments in post.comment_set.all %}
+                                                        <p>{{ comments.user_comment }}</p>
+                                                    {% endfor %}
+                                                {% endif %}
                                             </div>
                                         </form>
                                     </div>

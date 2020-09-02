@@ -131,6 +131,44 @@
                                     <p>{{ post.post_body }}</p>
                                 </div>
                         </div>
+                   <div class="accordion" id="accordionExample">
+                           <div class="card mb-2">
+                               <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ post.id }}" aria-expanded="false" aria-controls="collapseTwo">
+                                            Comments [{{ post.comment_set.all.all.count }}]
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapse{{ post.id }}" class="collapse mb-2" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                        {{ message|safe }}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <input type="hidden" name="post_id" value={{ post.id }}>
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="user_comment" placeholder="Enter comments here" id="message-text"></textarea>
+                                                <button type="submit" name="submit_c_form" class="btn btn-primary" style="margin: 1em 0 0 25.5em">comment</button>
+                                                {% if post.comment_set.all %}
+                                                    {% for comments in post.comment_set.all %}
+                                                        <p>{{ comments.user_comment }}</p>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                   {% endfor %}
                 </p>
