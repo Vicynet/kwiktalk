@@ -1,5 +1,5 @@
 from django import forms
-from .models import KwikPost
+from .models import KwikPost, Comment
 from urllib import request
 from django.core.files.base import ContentFile
 from django.utils.text import slugify
@@ -9,6 +9,12 @@ class KwikTalkPostForm(forms.ModelForm):
     class Meta:
         model = KwikPost
         fields = ('featured_image', 'post_body')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('user_comment',)
 
     # def clean_featured_image(self):
     #     featured_image = self.cleaned_data['featured_image']

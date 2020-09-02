@@ -76,10 +76,8 @@
                     <p>
                         <h6 class="post-tag-head">Account Summary</h6>
                         <div class="tag-sidebar-item">
-                            <p class="post-tag">3 Post(s) Published</p>
-                            <p class="post-tag">25 Followers</p>
-                            <p class="post-tag">Following 23</p>
-
+                            <p class="post-tag">{{ posts_by_user }} Post(s) Published</p>
+                            <p class="post-tag">{{ likes_by_user }} Like(s) Made</p>
                         </div>
                     </p>
                 </div>
@@ -114,8 +112,18 @@
                                 <div class="col-md-8 feed-post-title-area">
                                   <div class="post-reactions">
                                     <div class="post-reaction-inner ml-auto">
-                                        <p class="time-to-read">[1] likes</p>
-                                        <button type="button" class="btn btn-primary">Like</button>
+                                        <p class="time-to-read">[{{ post.post_likes.count }}] likes</p>
+                                        <form action="{% url 'kwikposts:like-post' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                        <button type="submit" class="btn btn-primary">
+                                            {% if user not in post.post_likes.all %}
+                                                Like
+                                            {% else %}
+                                                Unlike
+                                            {% endif %}
+                                        </button>
+                                        </form>
                                     </div>
                                   </div>
                                 </div>
@@ -131,17 +139,13 @@
               <div class="col-md-3 main-body-inner2">
                 <div class="trending-sidebar">
                     <p>
-                        <h6 class="trending-sidebar-head"> <p></p> Friends</h6>
+                        <h6 class="trending-sidebar-head"> <p></p> <button type="button" class="btn btn-dark">
+                                    Friends <span class="badge badge-light">{{ user.profile.get_friends_number }}</span>
+                                </button></h6>
                         <div class="trending-sidebar-item">
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
-                            <p class="post-trend-title">Crud and Java Springboot plus...</p>
+                           {% for friend in user.profile.get_friends %}
+                                <p class="post-trend-title">{{ friend|capfirst }}</p>
+                            {% endfor %}
                         </div>
                     </p>
                 </div>

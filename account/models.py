@@ -4,20 +4,20 @@ from django.contrib.auth.models import User
 from .utils import get_random_code
 from django.template.defaultfilters import slugify
 from django.contrib.auth import get_user_model
-from kwikposts.models import KwikPost
+from kwikposts.models import KwikPost, Comment, Like
 
 
 # Create your models here.
-class Contact(models.Model):
-    user_from = models.ForeignKey('auth.User', related_name='relationship_from_set', on_delete=models.CASCADE)
-    user_to = models.ForeignKey('auth.User', related_name='relationship_to_set', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-
-    class Meta:
-        ordering = ('-created_at',)
-
-    def __str__(self):
-        return f'{self.user_from} follows {self.user_to}'
+# class Contact(models.Model):
+#     user_from = models.ForeignKey('auth.User', related_name='relationship_from_set', on_delete=models.CASCADE)
+#     user_to = models.ForeignKey('auth.User', related_name='relationship_to_set', on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+#
+#     class Meta:
+#         ordering = ('-created_at',)
+#
+#     def __str__(self):
+#         return f'{self.user_from} follows {self.user_to}'
 
 
 class Profile(models.Model):
@@ -33,15 +33,23 @@ class Profile(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    user_model = get_user_model()
-    user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name='followers',
-                                                                symmetrical=False))
+    # user_model = get_user_model()
+    # user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name='followers',
+    #                                                             symmetrical=False))
 
     def get_friends(self):
         return self.friends.all()
 
     def get_friends_number(self):
         return self.friends.all().count()
+
+    def get_likes_given(self):
+        likes = self.Like.all().count()
+        total_liked = 0
+        for item in likes:
+            if item.values == 'Like':
+                total_liked += 1
+        return total_liked
 
     def __str__(self):
         return f"Profile for user {self.user.username}-{self.created_at.strftime('%d-%m-%Y')}"

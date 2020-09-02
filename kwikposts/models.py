@@ -22,7 +22,25 @@ class KwikPost(models.Model):
         return self.post_body
 
     def number_of_likes(self):
-        return self.post_likes.all().count()
+        return self.like_set.all().count()
+
+    def number_of_comments(self):
+        return self.comment_set.all().count()
+
+    def get_likes_given(self):
+        likes = self.like_set.all()
+        total_liked = 0
+        for item in likes:
+            if item.values == 'Like':
+                total_liked += 1
+        return total_liked
+
+    def get_likes_received(self):
+        posts = self.kwikposts_created.all()
+        total_liked = 0
+        for item in posts:
+            total_liked += item.likes.all().count()
+        return total_liked
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -53,3 +71,6 @@ class Like(models.Model):
     values = models.CharField(choices=LIKE_CHOICES, max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user}-{self.post}-{self.values}"

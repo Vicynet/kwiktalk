@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 
 from kwikposts.views import list_create_post
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile, Contact
-from kwikposts.models import KwikPost
+from .models import Profile  # Contact
+from kwikposts.models import KwikPost, Comment, Like
 from common.decorators import ajax_required
 
 
@@ -40,15 +40,6 @@ def register_user(request):
     if request.method == 'POST':
         user_registration_form = UserRegistrationForm(request.POST)
         if user_registration_form.is_valid():
-            # clean_data = user_registration_form.cleaned_data
-            # username = request.POST['username']
-            # email = request.POST['email']
-            # first_name = request.POST['firstname']
-            # last_name = request.POST['lastname']
-            # password = request.POST['password']
-            # confirm_password = request.POST['confirmpassword']
-            # all_user_data = User.objects.create(username, email, first_name, last_name, password, confirm_password)
-            # user_registration_data = authenticate(request, username=clean_data['use'])
             # Create a new user object but avoid saving it yet
             create_new_user = user_registration_form.save(commit=False)
             # Set chosen password for hashing for security reasons
@@ -97,31 +88,23 @@ def user_detail(request, username):
     # profile = Profile.objects.get(user=request.user)
     user = get_object_or_404(User, username=username, is_active=True)
     post = KwikPost.objects.filter(user=user)
+    post_by_user = KwikPost.objects.filter(user=user).all().count()
+
+    def get_likes_given(self):
+        likes = self.like_set.all()
+        total_liked = 0
+        for item in likes:
+            if item.values == 'Like':
+                total_liked += 1
+        return total_liked
+
+    likes_by_user = Like.objects.filter(user=user).all().count()
     return render(request, 'account/profile.html',
-                  {'section': 'people', 'user': user, 'user_post': post, })
-                  # {'section': 'people', 'user': user, 'profile': profile})
+                  {'section': 'people', 'user': user, 'user_post': post,
+                   'count_post': post_by_user, 'count_likes_by_user': get_likes_given(user)})
 
 
 @login_required
 def user_detail_post(request, username):
-    post = KwikPost.objects.filter(User, username=username).count()
-    return render(request, 'account/profile.html', {'section': 'people', 'post': post})
-
-
-@ajax_required
-@require_POST
-@login_required
-def user_follow(request):
-    user_id = request.POST.get('id')
-    action = request.POST.get('action')
-    if user_id and action:
-        try:
-            user = User.objects.get(id=user_id)
-            if action == 'follow':
-                Contact.objects.get_or_create(user_from=request.user, user_to=user)
-            else:
-                Contact.objects.filter(user_from=request.user, user_to=user).delete()
-            return JsonResponse({'status': 'ok'})
-        except User.DoesNotExist:
-            return JsonResponse({'status': 'error'})
-    return JsonResponse({'status': 'error'})
+    post = KwikPost.objects.filter(User, username=username).all().count()
+    return render(request, 'account/profile.html', {'section': 'people', 'count_user_post': post})
