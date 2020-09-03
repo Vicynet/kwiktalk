@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from kwikposts.views import list_create_post
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile  # Contact
+from .models import Profile, Relationship
 from kwikposts.models import KwikPost, Comment, Like
 from common.decorators import ajax_required
 
@@ -108,3 +108,12 @@ def user_detail(request, username):
 def user_detail_post(request, username):
     post = KwikPost.objects.filter(User, username=username).all().count()
     return render(request, 'account/profile.html', {'section': 'people', 'count_user_post': post})
+
+
+@login_required
+def invitation_received_view(request):
+    # user = get_object_or_404(User, username=username, is_active=True)
+    user = Profile.objects.get(user=request.user)
+    invitation_received = Relationship.objects.invitations_received(user)
+    print(invitation_received)
+    return render(request, 'account/friend-requests.html', {'friend-requests': invitation_received})

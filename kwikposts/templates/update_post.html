@@ -1,0 +1,119 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>KwikTalk - Edit Profile</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/floating-labels.css' %}" rel="stylesheet">
+  </head>
+
+
+  <body>
+     {% block content %}
+
+        <form method="post" enctype="multipart/form-data" style="margin: 1em auto">
+                  {% csrf_token %}
+
+                  {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message|safe }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+        <h3 class="text-center mb-5" style="color: white">Update Post</h3>
+                <div class="form-group">
+                    <textarea class="form-control" name="post_body" id="message-text"></textarea>
+                  </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                      <input type="file" name="featured_image" class="custom-file-input form-control" id="customFile">
+                      <label class="custom-file-label" for="customFile">Choose Post Image</label>
+                    </div>
+                    <img src="https://placehold.it/80x80" id="preview" style="margin-top: 1em;" width="80px" height="80px" class="img-thumbnail">
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+
+         <script>
+        $(document).on("click", ".browse", function() {
+          var file = $(this).parents().find(".file");
+          file.trigger("click");
+        });
+        $('input[type="file"]').change(function(e) {
+          var fileName = e.target.files[0].name;
+          $("#file").val(fileName);
+
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("preview").src = e.target.result;
+          };
+          // read the image file as a data URL.
+          reader.readAsDataURL(this.files[0]);
+        });
+
+
+        $(document).ready(function() {
+          $('input[type="file"]').on("change", function() {
+            let filenames = [];
+            let files = document.getElementById("customFile").files;
+            if (files.length > 1) {
+              filenames.push("Total Files (" + files.length + ")");
+            } else {
+              for (let i in files) {
+                if (files.hasOwnProperty(i)) {
+                  filenames.push(files[i].name);
+                }
+              }
+            }
+            $(this)
+              .next(".custom-file-label")
+              .html(filenames.join(","));
+          });
+        });
+
+    </script>
+  {% endblock %}
+  <script>
+$(document).ready(function(){
+  $('.toast').toast('show');
+});
+</script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

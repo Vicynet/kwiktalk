@@ -131,7 +131,7 @@
                                     <p>{{ post.post_body }}</p>
                                 </div>
                         </div>
-                   <div class="accordion" id="accordionExample">
+                        <div class="accordion" id="accordionExample">
                            <div class="card mb-2">
                                <div class="card-header" id="headingTwo">
                                     <h2 class="mb-0">
@@ -169,6 +169,17 @@
                                 </div>
                             </div>
                         </div>
+                        {% ifequal request.user post.user %}
+                            <div class="dropdown " style="margin-left: 25.5em;" >
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Modify post
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{% url 'feed:update-post' post.pk %}">Update</a>
+                                    <a class="dropdown-item" href="{% url 'feed:delete-post' post.pk %}">Delete</a>
+                                </div>
+                            </div>
+                        {% endifequal %}
                     </div>
                   {% endfor %}
                 </p>

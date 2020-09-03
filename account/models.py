@@ -33,6 +33,7 @@ class Profile(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     # user_model = get_user_model()
     # user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name='followers',
     #                                                             symmetrical=False))
@@ -74,12 +75,20 @@ STATUS_CHOICES = (
 )
 
 
+class RelationshipManager(models.Manager):
+    def invitations_received(self, receiver):
+        invitation = Relationship.objects.filter(receiver=receiver, status='send')
+        return invitation
+
+
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = RelationshipManager()
 
     class Meta:
         ordering = ('-created_at',)

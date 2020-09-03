@@ -8,6 +8,8 @@ from account.models import Profile
 from django.contrib.auth.models import User
 import logging
 from django.views.decorators.http import require_POST
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -107,5 +109,41 @@ def like_unlike_post(request):
         like.save()
 
     return redirect('kwikposts:post_feed')
+
+
+class DeletePost(DeleteView):
+    model = KwikPost
+    template_name = 'delete_post.html'
+    success_url = reverse_lazy('kwikposts:post_feed')
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        post_delete_obj = KwikPost.objects.get(pk=pk)
+        if not post_delete_obj.user == self.request.user:
+            messages.warning(self.request, "You need to be the author of the post to delete it!")
+        return post_delete_obj
+
+
+class UpdatePost(UpdateView):
+    form_class = KwikTalkPostForm
+    model = KwikPost
+    template_name = 'update_post.html'
+    success_url = reverse_lazy('kwikposts:post_feed')
+
+    # def form_valid(self, form):
+    #     user = Profile.objects.get(user=self.request.user)
+    #     if form.instance.user == user:
+    #         return super().form_valid(form)
+    #     else:
+    #         form.add_error(None, "You need to be the author of the post to update it!")
+    #         return super().form_invalid(form)
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        post_update_obj = KwikPost.objects.get(pk=pk)
+        if not post_update_obj.user == self.request.user:
+            messages.warning(self.request, "You need to be the author of the post to update it!")
+        return post_update_obj
+
 
 
