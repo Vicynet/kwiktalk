@@ -1,0 +1,1 @@
+web: gunicorn kwiktalk.wsgi --log-file -
