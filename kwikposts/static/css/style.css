@@ -567,12 +567,47 @@ nav .nav {
   }
 }
 
-form .btn-success {
-  background-color: #75EDBC !important;
-}
-
 .btn-warning {
   background-color: #F1B815 !important;
 }
 
 /* =========================Register/Login end============= */
+
+@media only screen and (max-width: 800px) {
+    .search-form {
+        margin-left: -6.8em !important;
+      width: 7em !important;
+    }
+  .profile-drop {
+    margin-left: 10.5em !important;
+    margin-bottom: 1.5em !important;
+  }
+  .write-post {
+    margin-left: 5em !important;
+    margin-bottom: -3.8em !important;
+  }
+  .main-body-inner {
+    border: 1px solid red !important;
+    width: 20.1em !important;
+    height: 8em !important;
+  }
+  .main-body-inner2 {
+    border: 1px solid red !important;
+    width: 20.1em !important;
+    height: 8em !important;
+  }
+  .main-body-inner1 {
+    border: 1px solid red !important;
+    width: 20.1em !important;
+  }
+  .feed-post-image-container {
+    border: 1px solid red !important;
+  }
+  .image-post {
+    border: 1px solid red !important;
+    width: 17.8em !important;
+  }
+  .dropdown {
+    margin-left: 8.9em !important;
+  }
+}

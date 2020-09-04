@@ -17,9 +17,9 @@
   {% block content %}
 
     <nav class="navbar sticky-top navbar-expand-lg navbar-light navbar-color shadow-sm" id="navbar-padding">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">#}
+{#          <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
         <a class="navbar-brand" href="#"><img class="img" src="{% static 'img/kwiktalk-logo.svg' %}" width="50px" height="50px" alt="logo"> KwikTalk</a>
 
       </nav>
@@ -39,21 +39,24 @@
       <div class="container-fluid second-nav sticky-top" style="background-color: #2E306B !important;">
 
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2 search-form" type="search" placeholder="Search" aria-label="Search">
             </form>
             <span class="ml-auto">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background-color: #E62E78 !important; border-color: #E62E78 !important;">Write a post</button>
-                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pencil-square write-post" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </svg>
                 &nbsp;
                 <!-- <div class="dropdown"> -->
-                    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
+                    <button type="button" class="btn btn-secondary dropdown-toggle profile-drop" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
                     <img src="../../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Account settings</a>
+                        <a href="{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
+                        <a href="{% url "user_list" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile list</a>
+                        <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Edit profile</a>
+                        <a href="{% url "password_change" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Change password</a>
                             <div class="dropdown-divider"></div>
                         <a href="{% url "logout" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Log out</a>
                     </div>
@@ -91,7 +94,7 @@
 
                    <div class="post-container">
                         <div class="feed-post-image-container">
-                            <img src="../../../media/{{ post.featured_image }}" id="previe"  width="545px" height="204px" >
+                            <img src="../../../media/{{ post.featured_image }}" id="previe" class="image-post"  width="545px" height="204px" >
                         </div>
                         <div class="container-fluid feed-post-detail">
                             <div class="row feed-post-author-detail">

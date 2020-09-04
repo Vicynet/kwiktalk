@@ -70,8 +70,14 @@
 }
 .main-body {
     /* border: 1px solid#960c0c; */
-    padding-left: 8em !important;
+    padding-left: 7em !important;
   padding-right: 7em !important;
+}
+@media only screen and (max-width: 800px) {
+    .main-body {
+        padding-left: 1em !important;
+        padding-right: 1em !important;
+    }
 }
 .main-body-inner {
     /* border: 1px solid blue; */
