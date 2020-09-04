@@ -77,37 +77,36 @@
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">
-                                <form action="" method="POST">
+                                {% if user.user not in rel_receiver and user.user not in rel_sender %}
+                                <form action="{% url 'send-invites' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="profile_pk" value="{{ user.pk }}">
-                                    {% if user.user not in rel_receiver and user.user not in rel_sender %}
                                     <button type="submit" class="btn btn-primary btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em;">
                                         Follow
                                     </button>
-                                    {% endif %}
                                 </form>
-                                <form action="" method="POST">
+                                {% endif %}
+                                {% if user.user in rel_sender and request.user not in user.friends.all %}
+                                    <form action="{% url 'accept-friend' %}" method="POST">
                                     {% csrf_token %}
-                                    <input type="hidden" name="profile_pk" value="{{ user.pk }}">
-                                    {% if user.user in rel_sender and request.user not in user.friends.all %}
-                                    <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
-                                        Accept
-                                    </button>
-                                    {% endif %}
-                                </form>
-
-                                    {% if user.user in rel_receiver and request.user not in user.friends.all %}
-                                        <span class="badge badge-dark p-3" style="font-size: 0.7rem;">Waiting for approval</span>
-                                    {% endif %}
-                                <form action="" method="POST">
+                                        <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                        <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
+                                            Accept request
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                {% if user.user in rel_receiver and request.user not in user.friends.all %}
+                                    <span class="badge badge-dark p-3" style="font-size: 0.7rem;">Waiting for approval</span>
+                                {% endif %}
+                                {% if request.user in user.friends.all %}
+                                    <form action="{% url 'remove-friend' %}" method="POST">
                                     {% csrf_token %}
-                                    <input type="hidden" name="profile_pk" value="{{ user.pk }}">
-                                    {% if request.user in user.friends.all %}
-                                    <button type="submit" class="btn btn-warning btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em;">
-                                        Unfollow
-                                    </button>
-                                    {% endif %}
-                                </form>
+                                        <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                        <button type="submit" class="btn btn-warning btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em;">
+                                            Unfollow
+                                        </button>
+                                    </form>
+                                {% endif %}
                             </small>
                         </div>
                     </div>

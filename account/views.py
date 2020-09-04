@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.views.generic import ListView
+from django.db.models import Q
 
 from kwikposts.views import list_create_post
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
@@ -161,3 +162,43 @@ def invite_profiles_list_view(request):
     user = request.user
     invite_profile = ProfileManager.get_all_profiles_to_invite(sender=user)
     return render(request, 'account/find-friend.html', {'follow-friend': invite_profile})
+
+
+def send_invitation(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        relation = Relationship.objects.create(sender=sender, receiver=receiver, status='send')
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect('user_list')
+
+
+def accept_invitation(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        relation = Relationship.objects.create(sender=sender, receiver=receiver, status='accepted')
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect('user_list')
+
+
+def remove_friend(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        relation = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender)))
+        relation.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('user_list')

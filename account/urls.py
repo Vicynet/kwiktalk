@@ -20,4 +20,7 @@ urlpatterns = [
     path('users/<username>/', views.user_detail, name='user_detail'),
     path('my-invites/', views.invitation_received_view, name='friend_request'),
     path('invite-friend/', views.invite_profiles_list_view, name='get_friend'),
+    path('send-invites/', views.send_invitation, name='send-invites'),
+    path('remove-friend/', views.remove_friend, name='remove-friend'),
+    path('accept-friend/', views.accept_invitation, name='accept-friend'),
 ]
