@@ -6,7 +6,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>KwikTalk - Feed</title>
+            <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}" />
+    <title>KwikTalk - User Profiles</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/column.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;500&display=swap" rel="stylesheet">
@@ -65,11 +66,46 @@
             {% for user in users %}
                     <div class="col-md-3" style="margin-bottom: 2em;">
                     <div class="card">
-                         <img src="../../media/{{ user.profile.display_picture }}" class="card-img-top"  alt="logo">
+                         <img src="../../media/{{ user.display_picture }}" class="card-img-top"  alt="logo">
                         <div class="card-body">
-                            <a href="{{ user.get_absolute_url }}" style="text-decoration: none">
-                        <h6 class="card-title" style="color: #ba8b00;">{{ user.get_full_name }}</h6></a>
-                        <h6 class="card-title" style="color: #2E306B;">{{ user.email }}</h6>
+                            <a href="{{ user.user.get_absolute_url }}" style="text-decoration: none">
+                        <h6 class="card-title" style="color: #ba8b00;">{{ user.user.first_name }} {{ user.user.last_name }}</h6></a>
+                        <h6 class="card-title" style="color: #2E306B;">{{ user.user.email }}</h6>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                    {% if user.user not in rel_receiver and user.user not in rel_sender %}
+                                    <button type="submit" class="btn btn-primary btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em;">
+                                        Follow
+                                    </button>
+                                    {% endif %}
+                                </form>
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                    {% if user.user in rel_sender and request.user not in user.friends.all %}
+                                    <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
+                                        Accept
+                                    </button>
+                                    {% endif %}
+                                </form>
+
+                                    {% if user.user in rel_receiver and request.user not in user.friends.all %}
+                                        <span class="badge badge-dark p-3" style="font-size: 0.7rem;">Waiting for approval</span>
+                                    {% endif %}
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                    {% if request.user in user.friends.all %}
+                                    <button type="submit" class="btn btn-warning btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em;">
+                                        Unfollow
+                                    </button>
+                                    {% endif %}
+                                </form>
+                            </small>
                         </div>
                     </div>
                     </div>

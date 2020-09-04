@@ -15,7 +15,9 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('register/', views.register_user, name='register'),
     path('edit/', views.edit, name='edit'),
-    path('users/', views.user_list, name='user_list'),
+    # path('users/', views.user_list, name='user_list'),
+    path('users/', views.ProfileListView.as_view(), name='user_list'),
     path('users/<username>/', views.user_detail, name='user_detail'),
-    path('friend_requests/', views.invitation_received_view, name='friend_request')
+    path('my-invites/', views.invitation_received_view, name='friend_request'),
+    path('invite-friend/', views.invite_profiles_list_view, name='get_friend'),
 ]

@@ -1,10 +1,13 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.shortcuts import render
+
 from .utils import get_random_code
 from django.template.defaultfilters import slugify
 from django.contrib.auth import get_user_model
 from kwikposts.models import KwikPost, Comment, Like
+from django.db.models import Q
 
 
 # Create your models here.
@@ -18,6 +21,25 @@ from kwikposts.models import KwikPost, Comment, Like
 #
 #     def __str__(self):
 #         return f'{self.user_from} follows {self.user_to}'
+
+
+class ProfileManager(models.Manager):
+    def get_all_profiles_to_invite(self, sender):
+        profiles = Profile.objects.all().exclude(user=sender)
+        profile = Profile.objects.get(user=sender)
+        friend_relation = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        print(friend_relation)
+
+        accepted = set([])
+        for rel in friend_relation:
+            if rel.status == 'accepted':
+                accepted.add(rel.receiver)
+                accepted.add(rel.sender)
+        print(accepted)
+
+        available = [profile for profile in profiles if profile not in accepted]
+        print(available)
+        return available
 
 
 class Profile(models.Model):
@@ -77,8 +99,8 @@ STATUS_CHOICES = (
 
 class RelationshipManager(models.Manager):
     def invitations_received(self, receiver):
-        invitation = Relationship.objects.filter(receiver=receiver, status='send')
-        return invitation
+        new_invitation = Relationship.objects.filter(receiver=receiver, status='send')
+        return new_invitation
 
 
 class Relationship(models.Model):

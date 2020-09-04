@@ -71,6 +71,7 @@ def list_create_post(request):
     return render(request, 'feed.html', context)
     # return render(request, 'feed.html', {'section': 'kwikposts', 'posts': posts})
 
+
 #
 # @login_required
 # def all_user_post(request):
@@ -78,7 +79,6 @@ def list_create_post(request):
 #     post_by_user = KwikPost.objects.filter(user=user).all().count()
 #
 #     return render(request, 'feed.html', {'count_user_post': post_by_user})
-
 
 
 @login_required
@@ -144,6 +144,3 @@ class UpdatePost(UpdateView):
         if not post_update_obj.user == self.request.user:
             messages.warning(self.request, "You need to be the author of the post to update it!")
         return post_update_obj
-
-
-

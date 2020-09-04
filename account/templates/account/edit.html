@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
+      <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}" />
     <title>KwikTalk - Edit Profile</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
@@ -91,8 +92,8 @@
   </div>
             <div class="form-label-group">
    <label for="inputGender">Gender</label>
-      <select id="inputGender" value="{{ user.profile.gender }}" class="form-control">
-        <option name="gender" selected>Male</option>
+      <select id="inputGender" class="form-control">
+        <option name="gender" value="{{ user.profile.gender }}" selected>Male</option>
         <option name="gender">Female</option>
       </select>
   </div>

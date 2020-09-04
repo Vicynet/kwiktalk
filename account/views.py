@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.views.generic import ListView
 
 from kwikposts.views import list_create_post
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Profile, Relationship
+from .models import Profile, Relationship, ProfileManager
 from kwikposts.models import KwikPost, Comment, Like
 from common.decorators import ajax_required
 
@@ -28,9 +30,15 @@ def user_login(request):
                     return list_create_post(request)
                     # return dashboard(request)
                 else:
-                    return HttpResponse('Disabled Account')
+                    return render(request, 'account/disabled.html', context=None)
             else:
-                return HttpResponse('Invalid Login')
+                return render(request, 'account/failed_login.html', context=None)
+
+        next_url = cache.get('next')
+        if next_url:
+            cache.delete('next')
+            return HttpResponseRedirect(next_url)
+
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
@@ -76,10 +84,39 @@ def edit(request):
     return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-@login_required
-def user_list(request):
-    users = User.objects.filter(is_active=True, is_staff=False)
-    return render(request, 'account/user_list.html', {'section': 'people', 'users': users})
+# @login_required
+# def user_list(request):
+#     users = User.objects.exclude(username=request.user).filter(is_active=True, is_staff=False)
+#     return render(request, 'account/user_list.html', {'section': 'people', 'users': users})
+
+
+class ProfileListView(ListView):
+    model = Profile
+    template_name = 'account/user_list.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        users = Profile.objects.all().exclude(user=self.request.user)
+        return users
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        rel_r = Relationship.objects.filter(sender=profile)
+        rel_s = Relationship.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in rel_r:
+            rel_receiver.append(item.receiver.user)
+        for item in rel_s:
+            rel_sender.append(item.sender.user)
+        context["rel_receiver"] = rel_receiver
+        context["rel_sender"] = rel_sender
+        context['is_empty'] = False
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+        return context
 
 
 @login_required
@@ -113,7 +150,14 @@ def user_detail_post(request, username):
 @login_required
 def invitation_received_view(request):
     # user = get_object_or_404(User, username=username, is_active=True)
-    user = Profile.objects.get(user=request.user)
-    invitation_received = Relationship.objects.invitations_received(user)
-    print(invitation_received)
-    return render(request, 'account/friend-requests.html', {'friend-requests': invitation_received})
+    user_profile = Profile.objects.get(user=request.user)
+    invites = Relationship.objects.invitations_received(user_profile)
+    print(invites)
+    return render(request, 'account/friend-requests.html', {'friend-requests': invites})
+
+
+@login_required
+def invite_profiles_list_view(request):
+    user = request.user
+    invite_profile = ProfileManager.get_all_profiles_to_invite(sender=user)
+    return render(request, 'account/find-friend.html', {'follow-friend': invite_profile})
