@@ -105,9 +105,9 @@ class ProfileListView(ListView):
         users = Profile.objects.all().exclude(user=self.request.user)
         return users
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs,):
         context = super().get_context_data(**kwargs)
-        user = User.objects.get(user=self.request.user)
+        user = User.objects.get(username__exact=self.request.user)
         # user = User.objects.get(username__iexact=self.request.user)
         profile = Profile.objects.get(user=user)
         rel_r = Relationship.objects.filter(sender=profile)
