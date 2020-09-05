@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ph5&-zxny)nv&ven+9wbe!)rc+z0+(f%jgz!v%c6k_$r$fb&^f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['kwiktalk.com', 'localhost', '127.0.0.1', 'kwiktalk.herokuapp.com']
 
