@@ -157,9 +157,9 @@ def user_detail_post(request, username):
 
 @login_required
 def invitation_received_view(request):
-    # user = get_object_or_404(User, username=username, is_active=True)
-    user_profile = Profile.objects.get(user=request.user)
-    invites = Relationship.objects.invitations_received(user_profile)
+    user = request.user
+    # user_profile = Profile.objects.get(user=request.user)
+    invites = Relationship.objects.invitations_received(user)
     print(invites)
     return render(request, 'account/friend-requests.html', {'friend-requests': invites})
 
