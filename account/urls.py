@@ -1,6 +1,7 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
+
 
 urlpatterns = [
     path('login/', views.user_login, name='login'),
@@ -14,7 +15,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'), name='password_reset_complete'),
     path('register/', views.register_user, name='register'),
-    path('register_done/', views.register_user, name='register_done'),
+    path('register_done/', views.register_done, name='register_done'),
     path('edit/', views.edit, name='edit'),
     # path('users/', views.user_list, name='user_list'),
     path('users/', views.ProfileListView.as_view(), name='user_list'),
