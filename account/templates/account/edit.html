@@ -91,10 +91,11 @@
     <label for="inputBio">Bio description</label>
   </div>
             <div class="form-label-group">
-   <label for="inputGender">Gender</label>
+{#   <label for="inputGender">Gender</label>#}
       <select id="inputGender" class="form-control">
-        <option name="gender" value="{{ user.profile.gender }}" selected>Male</option>
-        <option name="gender">Female</option>
+        <option name="gender" selected>{{ user.profile.gender }}</option>
+        <option name="gender" value="Male">Male</option>
+        <option name="gender" value="Female">Female</option>
       </select>
   </div>
 <input type="hidden" name="next" value="{{ next }}" />

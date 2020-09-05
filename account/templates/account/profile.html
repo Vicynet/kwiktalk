@@ -53,7 +53,7 @@
                     <img src="../../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <a href="{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
+                        <a href="{% url "user_list" %}{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
                         <a href="{% url "user_list" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile list</a>
                         <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Edit profile</a>
                         <a href="{% url "password_change" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Change password</a>
@@ -94,7 +94,7 @@
 
                    <div class="post-container">
                         <div class="feed-post-image-container">
-                            <img src="../../../media/{{ post.featured_image }}" id="previe" class="image-post"  width="545px" height="204px" >
+                            <img src="../../../media/{{ post.featured_image }}" id="previe" class="image-post"  width="538px" height="204px" >
                         </div>
                         <div class="container-fluid feed-post-detail">
                             <div class="row feed-post-author-detail">
@@ -164,7 +164,20 @@
                                                 <button type="submit" name="submit_c_form" class="btn btn-primary" style="margin: 1em 0 0 25.5em">comment</button>
                                                 {% if post.comment_set.all %}
                                                     {% for comments in post.comment_set.all %}
-                                                        <p>{{ comments.user_comment }}</p>
+                                                        <div class="card">
+                                                            <div class="card-header" style="display: flex; vertical-align: center;">
+                                                                 <a href="{{ user.get_absolute_url }}">
+                                                                    <img src="../../../media/{{ comments.user.profile.display_picture }}" id="previe"  width="40px" height="40px" style="border-radius: 50px;">
+                                                                 </a>
+                                                                <p>{{ comments.user|capfirst }}</p>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <blockquote class="blockquote mb-0">
+                                                                    <p style="font-size: 0.8rem;">{{ comments.user_comment }}</p>
+                                                                <footer class="blockquote-footer">{{ comments.created_at | timesince}} ago</footer>
+                                                                </blockquote>
+                                                            </div>
+                                                        </div>
                                                     {% endfor %}
                                                 {% endif %}
                                             </div>

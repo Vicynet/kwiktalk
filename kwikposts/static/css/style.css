@@ -587,27 +587,26 @@ nav .nav {
     margin-bottom: -3.8em !important;
   }
   .main-body-inner {
-    border: 1px solid red !important;
-    width: 20.1em !important;
+    width: 25.5em !important;
     height: 8em !important;
   }
   .main-body-inner2 {
-    border: 1px solid red !important;
-    width: 20.1em !important;
+    width: 25.5em !important;
     height: 8em !important;
   }
   .main-body-inner1 {
-    border: 1px solid red !important;
-    width: 20.1em !important;
-  }
-  .feed-post-image-container {
-    border: 1px solid red !important;
+    width: 25.5em !important;
   }
   .image-post {
-    border: 1px solid red !important;
-    width: 17.8em !important;
+    width: 23.3em !important;
   }
   .dropdown {
     margin-left: 8.9em !important;
+  }
+  .comment-button {
+    margin-left: 9.5em !important;
+  }
+  .body-style {
+    overflow-x: hidden !important;
   }
 }
