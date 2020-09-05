@@ -87,19 +87,19 @@
                 </div>
               </div>
               <div class="col-md-6 main-body-inner1">
-              {% for user in users %}
-                  {% if user.user in rel_sender and request.user not in user.friends.all %}
+              {% for user in friend-requests %}
+                  {% if user.sender.user in rel_sender and request.user not in user.sender.friends.all %}
                       <div class="card w-75">
                         <div class="card-body">
                             <p class="card-text">
-                                <a href="{{ user.user.get_absolute_url }}" style="text-decoration: none">
-                                    <img src="../../media/{{ user.display_picture }}" class="card-img-top"  alt="logo">
-                                    <p class="card-title" style="color: #ba8b00;">{{ user.user.first_name }} {{ user.user.last_name }}</p>
+                                <a href="{{ user.sender.user.get_absolute_url }}" style="text-decoration: none">
+                                    <img src="../../media/{{ user.sender.display_picture }}" class="card-img-top"  alt="logo">
+                                    <p class="card-title" style="color: #ba8b00;">{{ user.sender.user.first_name }} {{ user.sender.user.last_name }}</p>
                                 </a>
                             </p>
                             <form action="{% url 'accept-friend' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                <input type="hidden" name="profile_pk" value="{{ user.sender.pk }}">
                                 <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
                                     Accept request
                                 </button>
