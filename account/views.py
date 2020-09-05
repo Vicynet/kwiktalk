@@ -57,7 +57,7 @@ def register_user(request):
             create_new_user.save()
             Profile.objects.create(user=create_new_user)
             # return Registration successful page
-            return redirect(reverse('account:register_done'))
+            return render(request,'account/register_done.html')
             # return render(request, 'account/register_done.html', {'create_new_user': create_new_user})
     else:
         user_registration_form = UserRegistrationForm()
