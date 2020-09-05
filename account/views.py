@@ -159,7 +159,7 @@ def user_detail_post(request, username):
 def invitation_received_view(request):
     user = request.user
     # user_profile = Profile.objects.get(user=request.user)
-    invites = Relationship.objects.invitations_received(Profile.objects.get(user))
+    invites = Relationship.objects.invitations_received(Profile.objects.get(user__exact=user))
     print(invites)
     return render(request, 'account/friend-requests.html', {'friend-requests': invites})
 
