@@ -28,7 +28,8 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     # return HttpResponse('Authenticated Successfully')
-                    return list_create_post(request)
+                    # return list_create_post(request)
+                    return redirect('kwikposts:post_feed')
                     # return dashboard(request)
                 else:
                     return render(request, 'account/disabled.html', context=None)
