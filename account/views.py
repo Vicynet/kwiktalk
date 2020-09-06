@@ -200,6 +200,20 @@ def accept_invitation(request):
     return redirect('user_list')
 
 
+def decline_invitation(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        receiver = Profile.objects.get(user=user)
+        sender = Profile.objects.get(pk=pk)
+
+        relation = get_object_or_404(sender=sender, receiver=receiver)
+        relation.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect('friend_request')
+
+
 def remove_friend(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')

@@ -24,4 +24,5 @@ urlpatterns = [
     path('send-invites/', views.send_invitation, name='send-invites'),
     path('remove-friend/', views.remove_friend, name='remove-friend'),
     path('accept-friend/', views.accept_invitation, name='accept-friend'),
+    path('decline-friend/', views.decline_invitation, name='decline-friend'),
 ]

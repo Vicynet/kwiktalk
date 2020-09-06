@@ -91,10 +91,17 @@
                 </div>
               </div>
               <div class="col-md-6 main-body-inner1">
+              {% if friend_request.count == 0 %}
+              <div class="card w-100 mt-3">
+                  <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
+                      <p class="card-text">
+                          No notification for you.
+                      </p>
+                  </div>
+              </div>
+              {% endif %}
               {% for user in friend_request %}
-
-{#                  <p>{{ friend_request.count }}</p>#}
-                      <div class="card w-100 mt-3">
+                  <div class="card w-100 mt-3">
                         <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
                             <p class="card-text">
                                 <a href="{{ user.sender.get_absolute_url }}" style="text-decoration: none; display: flex;">
@@ -107,6 +114,13 @@
                                 <input type="hidden" name="profile_pk" value="{{ user.pk }}">
                                 <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
                                     Accept request
+                                </button>
+                            </form>
+                            <form action="{% url 'decline-friend' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
+                                    Decline request
                                 </button>
                             </form>
                         </div>
