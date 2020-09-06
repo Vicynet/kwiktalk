@@ -25,6 +25,12 @@
         margin-top: 0em !important;
         margin-left: 1em !important;
     }
+    .post-container {
+        width: 18.2em !important;
+    }
+     .image-post {
+    width: 18.2em !important;
+  }
 }
 @media only screen and (min-width: 875px) {
     .second-nav .bi-pencil-square {
