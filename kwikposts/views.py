@@ -17,6 +17,8 @@ from django.urls import reverse_lazy
 @login_required
 class FriendPost(ListView):
     model = KwikPost
+    template_name = 'feed.html'
+    context_object_name = 'friend_post'
 
     def get_queryset(self):
         return KwikPost.objects.filter(user__exact=self.request.user.friends)
@@ -28,7 +30,7 @@ def list_create_post(request):
     user = request.user
     all_user_post = KwikPost.objects.filter(user=user).all().count()
     all_user_likes = Like.objects.filter(user=user).all().count()
-    post_by_friends = KwikPost.objects.filter(user_id=user.friends).all()
+    # post_by_friends = KwikPost.objects.filter(user_id=user.friends).all()
 
     if 'submit_p_form' in request.POST:
         # form is sent
@@ -74,7 +76,7 @@ def list_create_post(request):
         'user_comment': comment_form,
         'posts_by_user': all_user_post,
         'likes_by_user': all_user_likes,
-        'friend_post': post_by_friends,
+        # 'friend_post': post_by_friends,
     }
     #
     return render(request, 'feed.html', context)
