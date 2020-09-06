@@ -207,7 +207,7 @@ def decline_invitation(request):
         receiver = Profile.objects.get(user=user)
         sender = Profile.objects.get(pk=pk)
 
-        relation = get_object_or_404(sender=sender, receiver=receiver)
+        relation = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         relation.delete()
         return redirect(request.META.get('HTTP_REFERER'))
 
