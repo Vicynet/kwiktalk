@@ -28,7 +28,7 @@ def list_create_post(request):
     user = request.user
     all_user_post = KwikPost.objects.filter(user=user).all().count()
     all_user_likes = Like.objects.filter(user=user).all().count()
-    post_by_friends = KwikPost.objects.filter(friend=user.friends).all()
+    post_by_friends = KwikPost.objects.filter(user=user.friends).all()
 
     if 'submit_p_form' in request.POST:
         # form is sent
