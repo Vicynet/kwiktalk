@@ -19,8 +19,6 @@
         padding-right: .5em !important;
     }
     .second-nav .btn-primary:first-of-type {
-        margin-top: 3.8em !important;
-        margin-left: 1em !important;
         display: none !important;
     }
     .second-nav .post-button {
