@@ -88,12 +88,14 @@
               </div>
               <div class="col-md-6 main-body-inner1">
               {% for user in friend_request %}
-                      <div class="card w-75">
+
+                  <p>{{ user.objects.count }}</p>
+                      <div class="card w-100">
                         <div class="card-body">
                             <p class="card-text">
                                 <a href="{{ user.get_absolute_url }}" style="text-decoration: none">
-                                    <img src="../../media/{{ user.display_picture }}" class="card-img-top"  alt="logo">
-                                    <p class="card-title" style="color: #ba8b00;">{{ user.first_name }} {{ user.last_name }}</p>
+                                    <img src="../../media/{{ user.sender.display_picture }}" class="card-img-top"  alt="logo">
+                                    <p class="card-title" style="color: #ba8b00;">{{ user.sender.user.first_name }} {{ user.sender.user.last_name }}</p>
                                 </a>
                             </p>
                             <form action="{% url 'accept-friend' %}" method="POST">
