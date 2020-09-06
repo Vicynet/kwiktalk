@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'easy_thumbnails',
+    'cloudinary',
 
     # my new apps
     'account.apps.AccountConfig',

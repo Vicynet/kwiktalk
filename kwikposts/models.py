@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
@@ -9,7 +10,7 @@ from django.utils.text import slugify
 class KwikPost(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='kwikposts_created', on_delete=models.CASCADE)
     slug = models.SlugField(max_length=100, blank=True)
-    featured_image = models.ImageField(upload_to='user_posts/images/%Y/%m/%d/')
+    featured_image = CloudinaryField('user_posts/images/%Y/%m/%d/')
     post_body = models.TextField(max_length=140, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)

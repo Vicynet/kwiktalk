@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import render
-
+from cloudinary.models import CloudinaryField
 from .utils import get_random_code
 from django.template.defaultfilters import slugify
 from django.contrib.auth import get_user_model
@@ -11,16 +11,6 @@ from django.db.models import Q
 
 
 # Create your models here.
-# class Contact(models.Model):
-#     user_from = models.ForeignKey('auth.User', related_name='relationship_from_set', on_delete=models.CASCADE)
-#     user_to = models.ForeignKey('auth.User', related_name='relationship_to_set', on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-#
-#     class Meta:
-#         ordering = ('-created_at',)
-#
-#     def __str__(self):
-#         return f'{self.user_from} follows {self.user_to}'
 
 
 class ProfileManager(models.Manager):
@@ -46,19 +36,13 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
-    display_picture = models.ImageField(default='default_avatar.png', upload_to='users/%Y/%m/%d/', blank=True)
+    display_picture = CloudinaryField('users/%Y/%m/%d/', default='default_avatar.png')
     bio = models.CharField(max_length=140, blank=True, null=True)
     gender = models.CharField(max_length=20, blank=True, null=True)
-
-    # friends = models.ManyToManyField(User, through=Contact, blank=True, related_name='friends', symmetrical=False)
     friends = models.ManyToManyField(User, blank=True, related_name='friends')
     slug = models.SlugField(unique=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    # user_model = get_user_model()
-    # user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name='followers',
-    #                                                             symmetrical=False))
 
     def get_friends(self):
         return self.friends.all()
