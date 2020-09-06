@@ -164,7 +164,7 @@ def invitation_received_view(request):
     if len(results) == 0:
         is_empty = True
     print(invites)
-    return render(request, 'account/friend-requests.html', {'friend-request': invites, 'is_empty': is_empty})
+    return render(request, 'account/friend-requests.html', {'friend_request': invites, 'is_empty': is_empty})
 
 
 @login_required
