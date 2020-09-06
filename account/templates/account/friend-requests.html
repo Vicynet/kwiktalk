@@ -120,14 +120,14 @@
                             </p>
                             <form action="{% url 'accept-friend' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                <input type="hidden" name="profile_pk" value="{{ user.sender.pk }}">
                                 <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
                                     Accept request
                                 </button>
                             </form>
                             <form action="{% url 'decline-friend' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="hidden" name="profile_pk" value="{{ user.pk }}">
+                                <input type="hidden" name="profile_pk" value="{{ user.sender.pk }}">
                                 <button type="submit" class="btn btn-outline-danger btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; border: none;">
                                     Decline request
                                 </button>
