@@ -51,7 +51,7 @@
                 &nbsp;
                 <!-- <div class="dropdown"> -->
                     <button type="button" class="btn btn-secondary dropdown-toggle profile-drop dropper" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
-                    <img src="../../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
+                    <img src="{{ user.profile.display_picture.url }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span class="user-toggle" style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "user_list" %}{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
@@ -105,14 +105,14 @@
 
                    <div class="post-container">
                         <div class="feed-post-image-container">
-                            <img src="../../../media/{{ post.featured_image }}" id="previe" class="image-post"  width="538px" height="204px" >
+                            <img src="{{ post.featured_image.url }}" id="previe" class="image-post"  width="538px" height="204px" >
                         </div>
                         <div class="container-fluid feed-post-detail">
                             <div class="row feed-post-author-detail">
                                 <div class="col-md-4 feed-post-author-image-name-post-date">
                                     <a href="{{ user.get_absolute_url }}">
                                     <div class="feed-post-author-image">
-                                        <img src="../../../media/{{ post.user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
+                                        <img src="{{ post.user.profile.display_picture.url }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
                                     </div>
                                     </a>
                                     <span>
@@ -178,7 +178,7 @@
                                                         <div class="card">
                                                             <div class="card-header" style="display: flex; vertical-align: center;">
                                                                  <a href="{{ user.get_absolute_url }}">
-                                                                    <img src="../../../media/{{ comments.user.profile.display_picture }}" id="previe"  width="40px" height="40px" style="border-radius: 50px;">
+                                                                    <img src="{{ comments.user.profile.display_picture.url }}" id="previe"  width="40px" height="40px" style="border-radius: 50px;">
                                                                  </a>
                                                                 <p>{{ comments.user|capfirst }}</p>
                                                             </div>
@@ -219,7 +219,7 @@
                         <div class="trending-sidebar-item">
                             <p class="post-trend-title">
                             <div class="feed-post-author-image" style="display: flex; vertical-align: center">
-                                        <img src="/media/{{ user.profile.display_picture }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
+                                        <img src="{{ user.profile.display_picture.url }}" id="previe"  width="50px" height="50px" style="border-radius: 50px;">
                              <button type="button" class="btn btn-primary btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 9em;">
                                     Follow
                                 </button>

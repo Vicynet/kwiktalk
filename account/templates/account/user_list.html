@@ -50,7 +50,7 @@
                 </button>
                 <!-- <div class="dropdown"> -->
                     <button type="button" class="btn btn-secondary dropdown-toggle profile-drop" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
-                    <img src="../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
+                    <img src="{{ user.profile.display_picture.url }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span class="user-toggle" style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
@@ -71,7 +71,7 @@
             {% for user in users %}
                     <div class="col-md-3" style="margin-bottom: 2em;">
                     <div class="card">
-                         <img src="../../media/{{ user.display_picture }}" class="card-img-top"  alt="logo">
+                         <img src="{{ user.display_picture.url }}" class="card-img-top"  alt="logo">
                         <div class="card-body">
                             <a href="{{ user.user.get_absolute_url }}" style="text-decoration: none">
                         <h6 class="card-title" style="color: #ba8b00;">{{ user.user.first_name }} {{ user.user.last_name }}</h6></a>
