@@ -157,11 +157,14 @@ def user_detail_post(request, username):
 
 @login_required
 def invitation_received_view(request):
-    user = request.user
-    # user_profile = Profile.objects.get(user=request.user)
-    invites = Relationship.objects.invitations_received(Profile.objects.get(user__exact=user))
+    user_profile = Profile.objects.get(user=request.user)
+    invites = Relationship.objects.invitations_received(Profile.objects.get(user_profile))
+    results = list(map(lambda x: x.sender, invites))
+    is_empty = False
+    if len(results) == 0:
+        is_empty = True
     print(invites)
-    return render(request, 'account/friend-requests.html', {'friend-request': invites})
+    return render(request, 'account/friend-requests.html', {'friend-request': invites, 'is_empty': is_empty})
 
 
 @login_required
