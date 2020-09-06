@@ -199,7 +199,7 @@ def accept_invitation(request):
         if relation.status == 'send':
             relation.status = 'accepted'
             relation.save()
-        return redirect(request.META.get('HTTP_REFERER'))
+        # return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('friend_request')
 
@@ -207,13 +207,13 @@ def accept_invitation(request):
 def decline_invitation(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
-        user = request.user
-        receiver = Profile.objects.get(user=user)
+        # user = request.user
+        receiver = Profile.objects.get(user=request.user)
         sender = Profile.objects.get(pk=pk)
 
         relation = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         relation.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
+        # return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('friend_request')
 

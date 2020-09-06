@@ -86,15 +86,15 @@
                                     </button>
                                 </form>
                                 {% endif %}
-                                {% if user.user in rel_sender and request.user not in user.friends.all %}
-                                    <form action="{% url 'accept-friend' %}" method="POST">
-                                    {% csrf_token %}
-                                        <input type="hidden" name="profile_pk" value="{{ user.pk }}">
-                                        <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">
-                                            Accept request
-                                        </button>
-                                    </form>
-                                {% endif %}
+{#                                {% if user.user in rel_sender and request.user not in user.friends.all %}#}
+{#                                    <form action="{% url 'accept-friend' %}" method="POST">#}
+{#                                    {% csrf_token %}#}
+{#                                        <input type="hidden" name="profile_pk" value="{{ user.pk }}">#}
+{#                                        <button type="submit" class="btn btn-success btn-sm" style="height: 35px; position: relative; top: 0.5em; left: 0em; background-color: #2E306B; border: none;">#}
+{#                                            Accept request#}
+{#                                        </button>#}
+{#                                    </form>#}
+{#                                {% endif %}#}
                                 {% if user.user in rel_receiver and request.user not in user.friends.all %}
                                     <span class="badge badge-dark p-3" style="font-size: 0.7rem;">Waiting for approval</span>
                                 {% endif %}
