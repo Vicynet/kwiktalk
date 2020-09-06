@@ -30,6 +30,9 @@
     .second-nav .bi-pencil-square {
         display: none;
     }
+     .second-nav .post-button {
+        display: none !important;
+    }
 }
 .navbar-color{
     background-color: white !important;
