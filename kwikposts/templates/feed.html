@@ -99,6 +99,9 @@
               {% endif %}
                 <p>
                     <h6 class="post-head">Posts</h6>
+              {% for friend_post in friend_post %}
+                <p>{{ friend_post.post_body }}</p>
+              {% endfor %}
 {#                    {% for post in posts %}#}
 {#                        <p>{{ post.post_body }}</p>#}
 {#                    {% endfor %}#}

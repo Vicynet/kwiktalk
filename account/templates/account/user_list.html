@@ -71,7 +71,7 @@
             {% for user in users %}
                     <div class="col-md-3" style="margin-bottom: 2em;">
                     <div class="card">
-                         <img src="{{ user.display_picture.url }}" class="card-img-top" height="80px"  alt="logo">
+                         <img src="{{ user.display_picture.url }}" class="card-img-top" height="200px"  alt="logo">
                         <div class="card-body">
                             <a href="{{ user.user.get_absolute_url }}" style="text-decoration: none">
                         <h6 class="card-title" style="color: #ba8b00;">{{ user.user.first_name }} {{ user.user.last_name }}</h6></a>
