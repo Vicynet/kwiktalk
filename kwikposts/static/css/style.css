@@ -582,6 +582,9 @@ nav .nav {
     margin-left: 3.5em !important;
     margin-bottom: 0em !important;
   }
+  .dropper {
+    margin-bottom: 1.5em !important;
+  }
   .write-post {
     margin-left: 5em !important;
     margin-bottom: -3.8em !important;
