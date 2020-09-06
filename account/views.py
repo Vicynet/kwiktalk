@@ -191,13 +191,17 @@ def accept_invitation(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
         user = request.user
-        sender = Profile.objects.get(user=user)
-        receiver = Profile.objects.get(pk=pk)
-
+        # sender = Profile.objects.get(user=user)
+        # receiver = Profile.objects.get(pk=pk)
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user)
         relation = Relationship.objects.create(sender=sender, receiver=receiver, status='accepted')
+        if relation.status == 'send':
+            relation.status = 'accepted'
+            relation.save()
         return redirect(request.META.get('HTTP_REFERER'))
 
-    return redirect('user_list')
+    return redirect('friend_request')
 
 
 def decline_invitation(request):
