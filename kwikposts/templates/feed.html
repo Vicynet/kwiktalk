@@ -86,6 +86,15 @@
                 </div>
               </div>
               <div class="col-md-6 main-body-inner1">
+              {% if added_post.count == 0 %}
+              <div class="card w-100 mt-3">
+                  <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
+                      <p class="card-text">
+                          No post yet.
+                      </p>
+                  </div>
+              </div>
+              {% endif %}
                 <p>
                     <h6 class="post-head">Posts Feed</h6>
 {#                    {% for post in posts %}#}
