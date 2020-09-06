@@ -55,7 +55,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "user_list" %}{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
                         <a href="{% url "friend_request" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Notification
-                            <span class="badge badge-danger">{{ friend_request.count }}</span></a>
+                            <span class="badge badge-danger">{{ user.friend_request.count }}</span></a>
                         <a href="{% url "user_list" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile list</a>
                         <a href="{% url "edit" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Edit profile</a>
                         <a href="{% url "password_change" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Change password</a>
