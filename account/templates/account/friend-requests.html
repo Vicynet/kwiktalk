@@ -91,9 +91,9 @@
                       <div class="card w-75">
                         <div class="card-body">
                             <p class="card-text">
-                                <a href="{{ user.user.get_absolute_url }}" style="text-decoration: none">
+                                <a href="{{ user.get_absolute_url }}" style="text-decoration: none">
                                     <img src="../../media/{{ user.display_picture }}" class="card-img-top"  alt="logo">
-                                    <p class="card-title" style="color: #ba8b00;">{{ user.user.first_name }} {{ user.user.last_name }}</p>
+                                    <p class="card-title" style="color: #ba8b00;">{{ user.first_name }} {{ user.last_name }}</p>
                                 </a>
                             </p>
                             <form action="{% url 'accept-friend' %}" method="POST">
