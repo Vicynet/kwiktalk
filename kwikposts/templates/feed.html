@@ -60,7 +60,7 @@
                 <!-- <div class="dropdown"> -->
                     <button type="button" class="btn btn-secondary dropdown-toggle profile-drop" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
                     <img src="../../media/{{ user.profile.display_picture }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
-                    <span style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
+                    <span class="user-toggle" style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "user_list" %}{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
                          <a href="{% url "friend_request" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Notification

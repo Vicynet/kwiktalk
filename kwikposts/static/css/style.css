@@ -609,4 +609,7 @@ nav .nav {
   .body-style {
     overflow-x: hidden !important;
   }
+  .user-toggle {
+    display: none !important;
+  }
 }
