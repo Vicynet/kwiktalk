@@ -161,7 +161,7 @@ def invitation_received_view(request):
     # user_profile = Profile.objects.get(user=request.user)
     invites = Relationship.objects.invitations_received(Profile.objects.get(user__exact=user))
     print(invites)
-    return render(request, 'account/friend-requests.html', {'friend-requests': invites})
+    return render(request, 'account/friend-requests.html', {'friend-request': invites})
 
 
 @login_required
