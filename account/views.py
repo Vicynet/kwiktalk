@@ -190,17 +190,12 @@ def send_invitation(request):
 def accept_invitation(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
-        # user = request.user
-        # sender = Profile.objects.get(user=user)
-        # receiver = Profile.objects.get(pk=pk)
         sender = Profile.objects.get(pk=pk)
         receiver = Profile.objects.get(user=request.user)
-        relation = Relationship.objects.create(sender=sender, receiver=receiver, status='accepted')
+        relation = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         if relation.status == 'send':
             relation.status = 'accepted'
             relation.save()
-        # return redirect(request.META.get('HTTP_REFERER'))
-
     return redirect('friend_request')
 
 
