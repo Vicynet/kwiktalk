@@ -101,6 +101,15 @@
               </div>
               {% endif %}
               {% for user in friend_request %}
+                  {% if friend_request.count == 0 %}
+              <div class="card w-100 mt-3">
+                  <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
+                      <p class="card-text">
+                          No notification for you.
+                      </p>
+                  </div>
+              </div>
+              {% endif %}
                   <div class="card w-100 mt-3">
                         <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
                             <p class="card-text">
