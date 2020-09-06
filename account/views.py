@@ -158,7 +158,7 @@ def user_detail_post(request, username):
 @login_required
 def invitation_received_view(request):
     user_profile = Profile.objects.get(user=request.user)
-    invites = Relationship.objects.invitations_received(Profile.objects.get(user_profile))
+    invites = Relationship.objects.invitations_received(user_profile)
     results = list(map(lambda x: x.sender, invites))
     is_empty = False
     if len(results) == 0:
