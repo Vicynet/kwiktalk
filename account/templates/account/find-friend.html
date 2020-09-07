@@ -69,6 +69,7 @@
       <div class="row">
         <div class="card-deck" id="cardDecker" style="margin: 1em auto;">
             {% for user in friends %}
+                {% if request.user in user.friends.all %}
                     <div class="col-md-3" style="margin-bottom: 2em;">
                     <div class="card h-100">
                          <img src="{{ user.display_picture.url }}" class="card-img-top" height="200px"  alt="logo">
@@ -79,7 +80,7 @@
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">
-                                {% if request.user in user.friends.all and user.user not in rel_receiver and user.user not in rel_sender %}
+{#                                {% if request.user in user.friends.all %}#}
                                     <form action="{% url 'remove-friend' %}" method="POST">
                                     {% csrf_token %}
                                         <input type="hidden" name="profile_pk" value="{{ user.pk }}">
@@ -87,11 +88,12 @@
                                             Unfollow
                                         </button>
                                     </form>
-                                {% endif %}
+{#                                {% endif %}#}
                             </small>
                         </div>
                     </div>
                     </div>
+                {% endif %}
             {% endfor %}
         </div>
       </div>
