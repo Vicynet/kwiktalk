@@ -171,8 +171,8 @@ class FriendPostListView(ListView):
         user = User.objects.get(username__exact=self.request.user)
         # user = User.objects.get(username__iexact=self.request.user)
         profile = Profile.objects.get(user=user)
-        rel_r = KwikPost.objects.filter(sender=profile)
-        rel_s = KwikPost.objects.filter(receiver=profile)
+        rel_r = Relationship.objects.filter(sender=profile)
+        rel_s = Relationship.objects.filter(receiver=profile)
         rel_receiver = []
         rel_sender = []
         for item in rel_r:
