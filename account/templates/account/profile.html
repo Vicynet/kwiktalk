@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" style="overflow-x: hidden">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -49,7 +49,7 @@
                     Write a post
                 </button>
                 &nbsp;
-                <!-- <div class="dropdown"> -->
+                <div class="btn-group dropleft">
                     <button type="button" class="btn btn-secondary dropdown-toggle profile-drop dropper" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
                     <img src="{{ user.profile.display_picture.url }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span class="user-toggle" style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
@@ -63,7 +63,7 @@
                             <div class="dropdown-divider"></div>
                         <a href="{% url "logout" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Log out</a>
                     </div>
-                <!-- </div> -->
+                </div>
             </span>
       </div>
       <div class="container-fluid main-body">
