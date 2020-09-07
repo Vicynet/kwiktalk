@@ -101,10 +101,7 @@
               {% endif %}
                 <p>
                     <h6 class="post-head">Posts</h6>
-{#                  {% for post in added_post %}#}
-               {% for user in friends_post %}
-                   {% for post in added_post %}
-                       {% if post.user in user.friends.all %}
+                  {% for post in added_post %}
                    <div class="post-container">
                         <div class="feed-post-image-container">
                             <img src="{{ post.featured_image.url }}" id="previe" class="image-post"  width="535px" height="204px" >
@@ -211,8 +208,6 @@
                         {% endifequal %}
                         </div>
                     </div>
-                       {% endif %}
-                  {% endfor %}
               {% endfor %}
                 </p>
               </div>
