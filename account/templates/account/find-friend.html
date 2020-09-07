@@ -79,7 +79,7 @@
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">
-                                {% if request.user in user.friends.all %}
+                                {% if request.user in user.friends.all and user.user not in rel_receiver and user.user not in rel_sender %}
                                     <form action="{% url 'remove-friend' %}" method="POST">
                                     {% csrf_token %}
                                         <input type="hidden" name="profile_pk" value="{{ user.pk }}">
