@@ -58,10 +58,10 @@
                 <button type="button" class="btn btn-primary desktop-post-button" data-toggle="modal" data-target="#exampleModal" style="background-color: #E62E78 !important; border-color: #E62E78 !important;">
                     Write a post
                 </button>
-                    <button type="button" class="btn btn-secondary dropdown-toggle profile-drop" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
+                    <button type="button" class="btn btn-secondary drop-left dropdown-toggle profile-drop" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2E306B !important; color: white; border: none !important;">
                     <img src="{{ user.profile.display_picture.url }}" id="previe"  width="30px" height="30px" style="border-radius: 50px;">
                     <span class="user-toggle" style="color: white">{{ request.user.first_name|capfirst }}</span> </button>
-                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu2">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <a href="{% url "user_list" %}{{ request.user.username }}" class="dropdown-item" type="button" role="button" aria-pressed="true">View profile</a>
                          <a href="{% url "friend_request" %}" class="dropdown-item" type="button" role="button" aria-pressed="true">Notification
                             <span class="badge badge-danger">{{ request.user.username.friend_request.count }}</span></a>
