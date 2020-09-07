@@ -111,7 +111,7 @@
                         <div class="card-body" style="display: flex; justify-content: space-evenly; vertical-align: center">
                             <p class="card-text">
                                 <a href="{{ user.sender.user.get_absolute_url }}" style="text-decoration: none; display: flex;">
-                                    <img src="{{ user.sender.display_picture.url }}" class="card-img-top"  alt="logo">
+                                    <img src="{{ user.sender.display_picture.url }}" class="card-img-top rounded-circle" width="40px" height="40px" alt="logo">
                                     <p class="card-title" style="color: #ba8b00;">{{ user.sender.user.first_name }} {{ user.sender.user.last_name }}</p>
                                 </a>
                             </p>
