@@ -127,12 +127,46 @@ class ProfileListView(ListView):
         return context
 
 
+class FriendListView(ListView):
+    model = Profile
+    template_name = 'account/find-friend.html'
+    context_object_name = 'friends'
+
+    def get_queryset(self):
+        users = Profile.objects.all().exclude(user=self.request.user)
+        return users
+
+    def get_context_data(self, **kwargs,):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(username__exact=self.request.user)
+        # user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        rel_r = Relationship.objects.filter(sender=profile)
+        rel_s = Relationship.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in rel_r:
+            rel_receiver.append(item.receiver.user)
+        for item in rel_s:
+            rel_sender.append(item.sender.user)
+        context["rel_receiver"] = rel_receiver
+        context["rel_sender"] = rel_sender
+        context['is_empty'] = False
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+        return context
+
+
 @login_required
 def user_detail(request, username):
-    # logged_in_user = request.user.profile
-    # profile = Profile.objects.get(user=request.user)
+    # pk = request.POST.get('profile_pk')
+    # receiver = Profile.objects.get(user=request.user)
+    # sender = Profile.objects.get(pk=pk)
+    # relation = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+
     user = get_object_or_404(User, username=username, is_active=True)
     post = KwikPost.objects.filter(user=user)
+    # friend_post = KwikPost.objects.filter(user=relation)
     post_by_user = KwikPost.objects.filter(user=user).all().count()
 
     def get_likes_given(self):

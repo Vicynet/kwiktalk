@@ -18,6 +18,7 @@ urlpatterns = [
     path('edit/', views.edit, name='edit'),
     # path('users/', views.user_list, name='user_list'),
     path('users/', views.ProfileListView.as_view(), name='user_list'),
+    path('friends/', views.FriendListView.as_view(), name='friend_list'),
     path('users/<username>/', views.user_detail, name='user_detail'),
     path('notification/', views.invitation_received_view, name='friend_request'),
     path('invite-friend/', views.invite_profiles_list_view, name='get_friend'),
