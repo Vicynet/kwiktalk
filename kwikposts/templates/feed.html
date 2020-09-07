@@ -101,8 +101,6 @@
               {% endif %}
                 <p>
                     <h6 class="post-head">Posts</h6>
-              {% for user in friends %}
-                {% if request.user in user.friends.all %}
                   {% for post in added_post %}
                    <div class="post-container">
                         <div class="feed-post-image-container">
@@ -210,8 +208,6 @@
                         {% endifequal %}
                         </div>
                     </div>
-                    {% endfor %}
-                      {% endif %}
               {% endfor %}
                 </p>
               </div>
