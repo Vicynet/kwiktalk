@@ -157,6 +157,36 @@ class FriendListView(ListView):
         return context
 
 
+class FriendPostListView(ListView):
+    model = Profile
+    template_name = 'feed.html'
+    context_object_name = 'friends_post'
+
+    def get_queryset(self):
+        users = Profile.objects.all().exclude(user=self.request.user)
+        return users
+
+    def get_context_data(self, **kwargs,):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(username__exact=self.request.user)
+        # user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        rel_r = KwikPost.objects.filter(sender=profile)
+        rel_s = KwikPost.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in rel_r:
+            rel_receiver.append(item.receiver.user)
+        for item in rel_s:
+            rel_sender.append(item.sender.user)
+        context["rel_receiver"] = rel_receiver
+        context["rel_sender"] = rel_sender
+        context['is_empty'] = False
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+        return context
+
+
 @login_required
 def user_detail(request, username):
     # pk = request.POST.get('profile_pk')

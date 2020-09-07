@@ -101,11 +101,10 @@
               {% endif %}
                 <p>
                     <h6 class="post-head">Posts</h6>
-              {% for friend_post in friend_post %}
-                <p>{{ friend_post.append }}</p>
-              {% endfor %}
-
-                  {% for post in added_post %}
+{#                  {% for post in added_post %}#}
+               {% for user in friends_post %}
+                {% if request.user in user.friends.all %}
+                   {% for post in added_post %}
                    <div class="post-container">
                         <div class="feed-post-image-container">
                             <img src="{{ post.featured_image.url }}" id="previe" class="image-post"  width="535px" height="204px" >
@@ -213,6 +212,8 @@
                         </div>
                     </div>
                   {% endfor %}
+                    {% endif %}
+              {% endfor %}
                 </p>
               </div>
               <div class="col-md-3 main-body-inner2 feed-main-body">
